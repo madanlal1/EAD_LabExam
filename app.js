@@ -4,13 +4,13 @@ const bodyParser = require('body-parser');
 
 
 const multer = require('multer');
-// const data_ = require('./model/model')
+const data_ = require('./model/model')
 
 // const dataModel = require('./model/model');
 // const res = require('express/lib/response');
 
 const app = express();
-
+    
 // connect to mongoDB database
 mongoose.connect("mongodb://localhost:27017/UserData", {
     useNewUrlParser: true,
@@ -83,21 +83,21 @@ app.set("view engine", 'ejs')
 //      console.log(req.file.filename)    
 // })
 
-// // show data api...
-// app.get('/showdata', (req,res) => {
+// show data api...
+app.get('/users', (req,res) => {
 
-//     data_.find((err,result) => {
-//         if (!err) {
-//             res.render("Data", {
-//                 data: result
-//             });
-//             console.log(result)
-//         } else {
-//             console.log('Failed to retrieve data: ' + err);
-//         }
+    data_.find((err,result) => {
+        if (!err) {
+            res.render("Users", {
+                data: result
+            });
+            console.log(result)
+        } else {
+            console.log('Failed to retrieve data: ' + err);
+        }
 
-//     })
-// })
+    })
+})
 
 // // delete data api...
 // app.get('/delete/:id', (req,res)=>{
