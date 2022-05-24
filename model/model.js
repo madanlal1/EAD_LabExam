@@ -2,25 +2,29 @@ const mongoose = require('mongoose');
 
 const registerSchema = mongoose.Schema({
 
-    fname:
+    name:
         {
-             type:String,
-             required:true
-         },
-    lname:
-        {
-             type:String,
-             required:true
+             type:String
          },
     email:
+        {
+             type:String
+         },
+    phone:
          {
-             type:String,
-             required:true
+             type:String
          }, 
+    city:
+         {
+             type:String
+         },
+    postcode:
+         {
+             type:Number
+         },
     image:
          {
-             type:String,
-             required:true
+             type:String
          }
      }
  );

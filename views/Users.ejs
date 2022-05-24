@@ -13,6 +13,7 @@
         <th scope="col">Phone</th>
         <th scope="col">City</th>
         <th scope="col">Postcode</th>
+        <th scope="col">Update</th>
         <th scope="col">Delete</th>
 
       </tr>
@@ -23,8 +24,8 @@
       
       <tr>
         <th scope="row"> <%= index %> </th>
-        <td> <img src="images/<%= row.image %>" width="150px" height="150px" alt='image'/> </td>
-        <td> <%= row.name %> </td>
+        <td> <img src="images/<%= row.image %>" width="50px" height="50px" alt='image'/> 
+         <%= row.name %> </td>
         <td> <%= row.email %> </td>
         <td> <%= row.phone %> </td>
         <td> <%= row.city %> </td>

@@ -6,8 +6,8 @@ const bodyParser = require('body-parser');
 const multer = require('multer');
 const data_ = require('./model/model')
 
-// const dataModel = require('./model/model');
-// const res = require('express/lib/response');
+const dataModel = require('./model/model');
+const res = require('express/lib/response');
 
 const app = express();
     
@@ -23,65 +23,66 @@ app.get('/', (req,res) => {
     res.render('Registration')
 })
 // middlewares
-// app.use(bodyParser.urlencoded({extended:true}))
-// app.use(express.static("public/"));
+app.use(bodyParser.urlencoded({extended:true}))
+app.use(express.static("public/"));
 app.set("view engine", 'ejs')
-// app.set("views", "./views")
+app.set("views", "./views")
 
 
-// // multer
-// const storage = multer.diskStorage(
-//     {
-//         destination:function(req,file,cb)
-//         {
-//             cb(null,"./public/images")
-//         },
-//         filename:function(req,file,cb)
-//         {
-//             cb(null,Date.now()+"_"+file.originalname)
-//         }
-//     }
-// );
+// multer
+const storage = multer.diskStorage(
+    {
+        destination:function(req,file,cb)
+        {
+            cb(null,"./public/images")
+        },
+        filename:function(req,file,cb)
+        {
+            cb(null,Date.now()+"_"+file.originalname)
+        }
+    }
+);
 
-// const upload = multer({
-//     storage:storage,
-// }).single("image");
+const upload = multer({
+    storage:storage,
+}).single("image");
 
 
-// //routes
-// app.get("/", (req,res) => {
-//     res.render('Register');
-// })
+//routes
+app.get("/", (req,res) => {
+    res.render('Register');
+})
 
-// app.get("/signin", (req,res) => {
-//     res.render('Signin');
-// })
+app.get("/signin", (req,res) => {
+    res.render('Signin');
+})
 
-// // insert data api...
-// app.post('/insertData',upload,(req,res)=>{
+// insert data api...
+app.post('/insertData',upload,(req,res)=>{
 
-//         const {fname,lname,email} = req.body
-//         const image = req.file.filename
+        const {name,email,phone,city,postcode} = req.body
+        const image = req.file.filename
      
     
-//         const user = new data_({
-//             fname:fname,
-//             lname:lname,
-//             email:email,
-//             image:image
-//         })
-//         user.save((err)=>{
-//             if(err){
-//                 res.send({message:err.message})
-//             }
-//             else{
-//                 res.redirect('/showdata');
-//             }
-//         })
+        const user = new data_({
+            name:name,
+            email:email,
+            phone:phone,
+            city:city,
+            postcode:postcode
+        })
+        user.save((err)=>{
+            if(err){
+                res.send({message:err.message})
+            }
+            else{
+                res.redirect('/users');
+            }
+        })
     
-//      console.log(req.body)
-//      console.log(req.file.filename)    
-// })
+     console.log(req.body)
+     console.log(req.file.filename)    
+})
 
 // show data api...
 app.get('/users', (req,res) => {
@@ -99,73 +100,49 @@ app.get('/users', (req,res) => {
     })
 })
 
-// // delete data api...
-// app.get('/delete/:id', (req,res)=>{
-//     const {id} = req.params
-//     data_.findByIdAndRemove(id).exec();
-//     res.redirect("/showdata");
-// }) 
+// delete data api...
+app.get('/delete/:id', (req,res)=>{
+    const {id} = req.params
+    data_.findByIdAndRemove(id).exec();
+    res.redirect("/users");
+}) 
     
-// // show data api...
-// app.get('/retdata/:id',(req,res)=>{
+// show data api...
+app.get('/retdata/:id',(req,res)=>{
 
-//     const {id} = req.params
-//     data_.findById(id).exec((err,users)=>{
-//         if(err)
-//         {
-//             res.send({message:"error"})
-//         }
-//         else{
-//             res.render('Update',{title:"Searching",users:users,})
-//         }
-//     })
+    const {id} = req.params
+    data_.findById(id).exec((err,users)=>{
+        if(err)
+        {
+            res.send({message:"error"})
+        }
+        else{
+            res.render('Update',{title:"Searching",users:users,})
+        }
+    })
 
-// })
+})
 
-// // update api...
-// app.post('/update/:id',upload, async (req,res)=>{
+// update api...
+app.post('/update/:id',upload, async (req,res)=>{
     
-//     const {id} = req.params
-//     const {fname,lname,email} = req.body
-//     const image = req.file.filename
+    const {id} = req.params
+    const {name,email,phone,city,postcode} = req.body
+    const image = req.file.filename
      
-//     await data_.findByIdAndUpdate(id,{
-//         $set:{
-//             fname:fname,
-//             lname:lname,
-//             email:email,
-//             image:image
-//         }
-//     })
+    await data_.findByIdAndUpdate(id,{
+        $set:{
+            name:name,
+            email:email,
+            phone:phone,
+            city:city,
+            postcode:postcode
+        }
+    })
 
-//     res.redirect('/showdata');
-// })
+    res.redirect('/users');
+})
     
-// // sign in api...
-// app.post('/signin',upload, async (req,res)=>{
-
-//     const {email}  = req.body
-
-//     data_.find({'email':{$eq:email}},(error , result)=>
-//     {
-//        if(error)
-//        {
-//            res.send(error)
-//        }
-//        else{
-          
-//            if(result.length==0)
-//            {
-//                 res.send("Email or Password does not valid!!!");
-//            }
-//            else
-//            {
-//                res.redirect('/showdata');
-//            }
-//        }
-//     })
-    
-// })
 
 
 // server configuration at port 3000

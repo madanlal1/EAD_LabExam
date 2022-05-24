@@ -1,0 +1,32 @@
+<%- include('./partials/header') %>
+<%- include('Navbar') %>
+
+<div class="container w-50 p-3 border text-center ">
+    <form action="/update/<%= users._id %>" method="post" enctype="multipart/form-data"> 
+        <h1>Update Your Data</h1>
+
+        <div class="row">
+            <div class="col">
+        <input type="file" name="image">
+        </div>
+        <div class="col">
+        <h3>Name</h3>
+        <input type="text" name="name" placeholder="Name" value="<%= users.name %>">
+        <h3>Email</h3>
+        <input type="email" name="email" placeholder="Email" value="<%= users.email %>"><br/><br/>
+        <h3>Phone</h3>
+        <input type="text" name="phone" placeholder="Phone" value="<%= users.phone %>">
+        <h3>City</h3>
+        <input type="text" name="city" placeholder="City" value="<%= users.city %>">
+        <h3>Passcode</h3>
+        <input type="text" name="passcode" placeholder="Passcode" value="<%= users.postcode%>">
+        </div>
+    </div>
+        <br/>
+        <br/>
+        <button type="submit" class="btn btn-secondary">update</button>
+    </form>
+</div>
+
+
+<%- include('./partials/footer') %>
